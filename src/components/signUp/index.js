@@ -1,4 +1,13 @@
-import { Button, Form, Input, message, Select, Upload } from 'antd'
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  message,
+  Select,
+  Upload
+} from 'antd'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -13,9 +22,11 @@ function SignUp() {
   const [countryList, setCountryList] = useState([])
   const [stateList, setStateList] = useState([])
   const [cityList, setCityList] = useState([])
-  const [countryName, setCountryName] = useState([])
-  const [cityName, setCityName] = useState([])
-  const [stateName, setStateName] = useState([])
+  const [code, setCode] = useState([])
+  const [countryName, setCountryName] = useState('')
+  const [cityName, setCityName] = useState('')
+  const [stateName, setStateName] = useState('')
+  const [checkboxValues, setCheckboxValues] = useState([])
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -28,6 +39,11 @@ function SignUp() {
       const res = await axios(
         'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json'
       )
+      const codeRes = await axios(
+        'https://gist.githubusercontent.com/Goles/3196253/raw/9ca4e7e62ea5ad935bb3580dc0a07d9df033b451/CountryCodes.json'
+      )
+
+      setCode(codeRes.data)
       setCountryList(res.data)
     } catch (error) {}
   }
@@ -55,6 +71,11 @@ function SignUp() {
     setCityName(values)
   }
   const onFinish = async (values) => {
+    if (values.dob) {
+      values.dob = values.dob.format('DD/MM/YYYY')
+    }
+    console.log(values, 'values')
+
     const payload = {
       ...ApiEndPoints.signUp,
       bodyData: {
@@ -64,14 +85,20 @@ function SignUp() {
         name: values.name,
         state: stateName,
         country: countryName,
-        city: cityName
+        city: cityName,
+        skills: checkboxValues,
+        dob: values.dob,
+        gender: values.gender,
+        prefix: values.prefix,
+        phone: values.phone
       }
     }
-    const res = await APIrequest(payload)
-    if (res.status) {
-      message.success('Signed up successfully', 2)
-      history.push('/')
-    }
+    console.log(payload)
+    // const res = await APIrequest(payload)
+    // if (res.status) {
+    //   message.success('Signed up successfully', 2)
+    //   history.push('/')
+    // }
   }
   const props = {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -89,6 +116,51 @@ function SignUp() {
       }
     }
   }
+  const prefixSelector = (
+    <Form.Item name='prefix' noStyle>
+      <Select style={{ width: 70 }}>
+        {code &&
+          code.map((code, index) => (
+            <Select.Option key={index} value={code.dial_code}>
+              {code.dial_code}
+            </Select.Option>
+          ))}
+      </Select>
+    </Form.Item>
+  )
+  const checkboxOptions = [
+    {
+      label: 'Developer',
+      value: 'developer'
+    },
+    {
+      label: 'QA',
+      value: 'qa'
+    },
+    {
+      label: 'BDE',
+      value: 'bde'
+    },
+    {
+      label: 'BA',
+      value: 'ba'
+    },
+    {
+      label: 'HR',
+      value: 'hr'
+    }
+  ]
+  const handleCheckboxChange = (values) => {
+    setCheckboxValues(values)
+  }
+  const disabledDate = (current) => {
+    const now = new Date()
+    if (now.getFullYear() - current.year() < 18) {
+      return false
+    }
+    return true
+    // if(current.year()
+  }
   return (
     <>
       <h2> Signup Form</h2>
@@ -103,6 +175,7 @@ function SignUp() {
           <Form.Item name='email'>
             <Input type='text' placeholder='Enter Email' required />
           </Form.Item>
+
           <label htmlFor='image'>
             <b>Upload Profile Image</b>
           </label>
@@ -111,6 +184,7 @@ function SignUp() {
               <Button>Click to Upload</Button>
             </Upload>
           </Form.Item>
+
           <label htmlFor='name'>
             <b>Name</b>
           </label>
@@ -146,7 +220,7 @@ function SignUp() {
             </Select>
           </Form.Item>
           <label htmlFor='state'>
-            <b>Country</b>
+            <b>State</b>
           </label>
           <Form.Item name='state'>
             <Select onChange={handleStateChange}>
@@ -159,7 +233,7 @@ function SignUp() {
             </Select>
           </Form.Item>
           <label htmlFor='city'>
-            <b>Country</b>
+            <b>City</b>
           </label>
           <Form.Item name='city'>
             <Select onChange={handleCityChange}>
@@ -170,6 +244,32 @@ function SignUp() {
                   </Select.Option>
                 ))}
             </Select>
+          </Form.Item>
+          <label htmlFor='phone'>
+            <b>phone</b>
+          </label>
+          <Form.Item
+            name='phone'
+            rules={[
+              { required: true, message: 'Please input your phone number!' }
+            ]}
+          >
+            <Input addonBefore={prefixSelector} />
+          </Form.Item>
+          <label htmlFor='skills'>
+            <b>Skills</b>
+          </label>
+          <Form.Item>
+            <Checkbox.Group
+              options={checkboxOptions}
+              onChange={handleCheckboxChange}
+            />
+          </Form.Item>
+          <label htmlFor='dob'>
+            <b>Date of Birth</b>
+          </label>
+          <Form.Item name='dob'>
+            <DatePicker format='DD/MM/YYYY' disabledDate={disabledDate} />
           </Form.Item>
           <label htmlFor='password'>
             <b>Password</b>

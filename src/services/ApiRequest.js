@@ -13,7 +13,8 @@ const APIrequest = async ({
   url,
   queryParams,
   bodyData,
-  formHeaders
+  formHeaders,
+  editData
 }) => {
   const apiToken = getSessionStorageToken()
 
@@ -35,7 +36,9 @@ const APIrequest = async ({
     if (url) {
       axiosConfig.url = url
     }
-
+    if (editData) {
+      axiosConfig.data = editData
+    }
     if (queryParams) {
       const queryParamsPayload = {}
       for (const key in queryParams) {
