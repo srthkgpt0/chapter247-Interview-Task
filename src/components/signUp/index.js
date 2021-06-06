@@ -14,9 +14,9 @@ import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { loginAction } from '../../Redux/auth/authSlice'
 import APIrequest from '../../services/ApiRequest'
-import '../../styles/signUp.css'
-import ApiEndPoints from '../../utilities/ApiEndPoints'
 
+import ApiEndPoints from '../../utilities/ApiEndPoints'
+import '../../styles/signUp.css'
 import { setSessionStorageToken } from '../../utilities/common'
 function SignUp() {
   const [countryList, setCountryList] = useState([])
@@ -94,11 +94,11 @@ function SignUp() {
       }
     }
     console.log(payload)
-    // const res = await APIrequest(payload)
-    // if (res.status) {
-    //   message.success('Signed up successfully', 2)
-    //   history.push('/')
-    // }
+    const res = await APIrequest(payload)
+    if (res.status) {
+      message.success('Signed up successfully', 2)
+      history.push('/')
+    }
   }
   const props = {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -163,138 +163,140 @@ function SignUp() {
   }
   return (
     <>
-      <h2> Signup Form</h2>
-      <div className='container'>
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr />
-        <Form onFinish={onFinish}>
-          <label htmlFor='email'>
-            <b>Email</b>
-          </label>
-          <Form.Item name='email'>
-            <Input type='text' placeholder='Enter Email' required />
-          </Form.Item>
+      <div className='main-content'>
+        <h2> Signup Form</h2>
+        <div className='container'>
+          <h1>Sign Up</h1>
+          <p>Please fill in this form to create an account.</p>
+          <hr />
+          <Form onFinish={onFinish}>
+            <label htmlFor='email'>
+              <b>Email</b>
+            </label>
+            <Form.Item name='email'>
+              <Input type='text' placeholder='Enter Email' required />
+            </Form.Item>
 
-          <label htmlFor='image'>
-            <b>Upload Profile Image</b>
-          </label>
-          <Form.Item name='image'>
-            <Upload {...props}>
-              <Button>Click to Upload</Button>
-            </Upload>
-          </Form.Item>
+            <label htmlFor='image'>
+              <b>Upload Profile Image</b>
+            </label>
+            <Form.Item name='image'>
+              <Upload {...props}>
+                <Button>Click to Upload</Button>
+              </Upload>
+            </Form.Item>
 
-          <label htmlFor='name'>
-            <b>Name</b>
-          </label>
-          <Form.Item name='name'>
-            <Input type='text' placeholder='Enter Name' required />
-          </Form.Item>
-          <label htmlFor='age'>
-            <b>Age</b>
-          </label>
-          <Form.Item name='age'>
-            <Input type='number' placeholder='Enter Age' required />
-          </Form.Item>
-          <label htmlFor='gender'>
-            <b>Gender</b>
-          </label>
-          <Form.Item name='gender'>
-            <Select>
-              <Select.Option value='male'>Male</Select.Option>
-              <Select.Option value='female'>Female</Select.Option>
-            </Select>
-          </Form.Item>
-          <label htmlFor='country'>
-            <b>Country</b>
-          </label>
-          <Form.Item name='country'>
-            <Select onChange={handleCountryChange}>
-              {countryList &&
-                countryList.map((cntry, index) => (
-                  <Select.Option key={index} value={[cntry.name, cntry.id]}>
-                    {cntry.name}
-                  </Select.Option>
-                ))}
-            </Select>
-          </Form.Item>
-          <label htmlFor='state'>
-            <b>State</b>
-          </label>
-          <Form.Item name='state'>
-            <Select onChange={handleStateChange}>
-              {stateList &&
-                stateList.map((st, index) => (
-                  <Select.Option key={index} value={[st.name, st.id]}>
-                    {st.name}
-                  </Select.Option>
-                ))}
-            </Select>
-          </Form.Item>
-          <label htmlFor='city'>
-            <b>City</b>
-          </label>
-          <Form.Item name='city'>
-            <Select onChange={handleCityChange}>
-              {cityList &&
-                cityList.map((cty, index) => (
-                  <Select.Option key={index} value={cty.name}>
-                    {cty.name}
-                  </Select.Option>
-                ))}
-            </Select>
-          </Form.Item>
-          <label htmlFor='phone'>
-            <b>phone</b>
-          </label>
-          <Form.Item
-            name='phone'
-            rules={[
-              { required: true, message: 'Please input your phone number!' }
-            ]}
-          >
-            <Input addonBefore={prefixSelector} />
-          </Form.Item>
-          <label htmlFor='skills'>
-            <b>Skills</b>
-          </label>
-          <Form.Item>
-            <Checkbox.Group
-              options={checkboxOptions}
-              onChange={handleCheckboxChange}
-            />
-          </Form.Item>
-          <label htmlFor='dob'>
-            <b>Date of Birth</b>
-          </label>
-          <Form.Item name='dob'>
-            <DatePicker format='DD/MM/YYYY' disabledDate={disabledDate} />
-          </Form.Item>
-          <label htmlFor='password'>
-            <b>Password</b>
-          </label>
-          <Form.Item name='password'>
-            <Input type='password' placeholder='Enter Password' required />
-          </Form.Item>
+            <label htmlFor='name'>
+              <b>Name</b>
+            </label>
+            <Form.Item name='name'>
+              <Input type='text' placeholder='Enter Name' required />
+            </Form.Item>
+            <label htmlFor='age'>
+              <b>Age</b>
+            </label>
+            <Form.Item name='age'>
+              <Input type='number' placeholder='Enter Age' required />
+            </Form.Item>
+            <label htmlFor='gender'>
+              <b>Gender</b>
+            </label>
+            <Form.Item name='gender'>
+              <Select>
+                <Select.Option value='male'>Male</Select.Option>
+                <Select.Option value='female'>Female</Select.Option>
+              </Select>
+            </Form.Item>
+            <label htmlFor='country'>
+              <b>Country</b>
+            </label>
+            <Form.Item name='country'>
+              <Select onChange={handleCountryChange}>
+                {countryList &&
+                  countryList.map((cntry, index) => (
+                    <Select.Option key={index} value={[cntry.name, cntry.id]}>
+                      {cntry.name}
+                    </Select.Option>
+                  ))}
+              </Select>
+            </Form.Item>
+            <label htmlFor='state'>
+              <b>State</b>
+            </label>
+            <Form.Item name='state'>
+              <Select onChange={handleStateChange}>
+                {stateList &&
+                  stateList.map((st, index) => (
+                    <Select.Option key={index} value={[st.name, st.id]}>
+                      {st.name}
+                    </Select.Option>
+                  ))}
+              </Select>
+            </Form.Item>
+            <label htmlFor='city'>
+              <b>City</b>
+            </label>
+            <Form.Item name='city'>
+              <Select onChange={handleCityChange}>
+                {cityList &&
+                  cityList.map((cty, index) => (
+                    <Select.Option key={index} value={cty.name}>
+                      {cty.name}
+                    </Select.Option>
+                  ))}
+              </Select>
+            </Form.Item>
+            <label htmlFor='phone'>
+              <b>phone</b>
+            </label>
+            <Form.Item
+              name='phone'
+              rules={[
+                { required: true, message: 'Please input your phone number!' }
+              ]}
+            >
+              <Input addonBefore={prefixSelector} />
+            </Form.Item>
+            <label htmlFor='skills'>
+              <b>Skills</b>
+            </label>
+            <Form.Item>
+              <Checkbox.Group
+                options={checkboxOptions}
+                onChange={handleCheckboxChange}
+              />
+            </Form.Item>
+            <label htmlFor='dob'>
+              <b>Date of Birth</b>
+            </label>
+            <Form.Item name='dob'>
+              <DatePicker format='DD/MM/YYYY' disabledDate={disabledDate} />
+            </Form.Item>
+            <label htmlFor='password'>
+              <b>Password</b>
+            </label>
+            <Form.Item name='password'>
+              <Input type='password' placeholder='Enter Password' required />
+            </Form.Item>
 
-          <p>
-            By creating an account you agree to our
-            <a href='/' style={{ color: 'dodgerblue' }}>
-              Terms & Privacy
-            </a>
-            .
-          </p>
+            <p>
+              By creating an account you agree to our
+              <a href='/' style={{ color: 'dodgerblue' }}>
+                Terms & Privacy
+              </a>
+              .
+            </p>
 
-          <div className='clearfix'>
-            <Link to='/' type='button' className='button cancelbtn'>
-              Cancel
-            </Link>
-            <Button htmlType='submit' className='button signupbtn'>
-              Sign Up
-            </Button>
-          </div>
-        </Form>
+            <div className='clearfix'>
+              <Link to='/' type='button' className='button cancelbtn'>
+                Cancel
+              </Link>
+              <Button htmlType='submit' className='button' id='signupbtn'>
+                Sign Up
+              </Button>
+            </div>
+          </Form>
+        </div>
       </div>
     </>
   )

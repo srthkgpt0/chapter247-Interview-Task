@@ -4,7 +4,9 @@ body {
 * {
   box-sizing: border-box;
 }
-
+.main-content {
+  padding: 40px 15px 20px 80px;
+}
 /* Full-width input fields */
 .input {
   width: 100%;
@@ -32,14 +34,14 @@ body {
   width: 100%;
   opacity: 0.9;
 }
-.signupbtn {
+#signupbtn {
   background-color: #04aa6d;
   color: white;
-  padding: 14px 20px;
+  padding: 24px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: 50%;
   opacity: 0.9;
 }
 
@@ -49,6 +51,10 @@ body {
 
 /* Extra styles for the cancel button */
 .cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+.signupbtn {
   padding: 14px 20px;
   background-color: #f44336;
 }

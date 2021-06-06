@@ -11,3 +11,12 @@ export const getSessionStorageToken = () => {
 export const removeSessionStorageToken = () => {
   sessionStorage.removeItem(`${config.NAME_KEY}:token`)
 }
+export const getFile = (url, queryParam) => {
+  let reqUrl
+  if (queryParam) {
+    reqUrl = `${url}?authorization=${'Bearer '}${getSessionStorageToken()}&${queryParam}`
+  } else {
+    reqUrl = `${url}?authorization=${'Bearer '}${getSessionStorageToken()}`
+  }
+  window.open(reqUrl)
+}

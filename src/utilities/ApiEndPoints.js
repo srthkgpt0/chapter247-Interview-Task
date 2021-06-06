@@ -1,3 +1,5 @@
+import config from '../components/config'
+
 const ApiEndPoints = {
   login: {
     url: '/auth/user',
@@ -14,6 +16,9 @@ const ApiEndPoints = {
   deleteUser: {
     url: '/auth/user',
     method: 'DELETE'
+  },
+  USER_LIST_FILE_DOWNLOAD: {
+    url: `${config.API_BASE_URL}/auth/user/download-list`
   }
 }
 export default ApiEndPoints

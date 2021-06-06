@@ -56,7 +56,7 @@ function Login() {
       </div>
 
       <div className='container'>
-        <Link to='/sign-up' type='button' className='cancelbtn'>
+        <Link to='/sign-up' type='button' className='cancelbtn' id='cancelbtn'>
           SignUp
         </Link>
         <span className='psw'>
