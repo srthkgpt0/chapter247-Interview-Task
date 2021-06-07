@@ -158,7 +158,7 @@ function SignUp() {
   const disabledDate = (current) => {
     const now = new Date()
     if (now.getFullYear() - current.year() < 18) {
-      return false
+      return true
     }
     return true
     // if(current.year()
