@@ -11,6 +11,7 @@ function Header() {
   const dispatch = useDispatch()
   const handleLogout = () => {
     dispatch(logoutAction())
+    message.success('Logged out successfully', 2)
     removeSessionStorageToken()
   }
   const handleDelete = () => {

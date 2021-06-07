@@ -6,7 +6,7 @@ import config from '../components/config'
 import APIrequest from '../services/ApiRequest'
 import '../styles/dashboard.css'
 import ApiEndPoints from '../utilities/ApiEndPoints'
-import { getFile } from '../utilities/common'
+import { getFile, getSessionStorageToken } from '../utilities/common'
 function Dashboard() {
   const [userList, setUserList] = useState([])
   const [form] = Form.useForm()
@@ -20,7 +20,7 @@ function Dashboard() {
       }
       const res = await APIrequest(payload)
       console.log(res)
-      setUserList(res.data)
+      setUserList(res.response)
     } catch (error) {}
   }
   const columns = [
@@ -118,7 +118,7 @@ function Dashboard() {
     name: 'file',
     action: config.API_BASE_URL + '/auth/csv',
     headers: {
-      authorization: 'authorization-text'
+      Authorization: 'Bearer ' + getSessionStorageToken()
     },
     onChange(info) {
       if (info.file.status !== 'uploading') {
@@ -126,6 +126,7 @@ function Dashboard() {
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`)
+        getUserList()
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`)
       }
@@ -143,7 +144,7 @@ function Dashboard() {
             <Button onClick={() => getCSV()}>Export List</Button>
           </div>
         </div>
-        <Table pagination={false} columns={columns} dataSource={data} />
+        <Table pagination={false} columns={columns} dataSource={userList} />
       </main>
     </>
   )

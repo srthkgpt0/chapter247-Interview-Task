@@ -10,17 +10,22 @@ import RouteWithLayout from './RouteWithLayout'
 function Routes() {
   return (
     <Switch>
-      <RouteWithLayout component={Login} exact layout={LoginLayout} path='/' />
+      <RouteWithLayout
+        component={Login}
+        exact
+        layout={WithAuth(LoginLayout)}
+        path='/'
+      />
       <RouteWithLayout
         component={Dashboard}
         exact
-        layout={MainLayout}
+        layout={WithAuth(MainLayout)}
         path='/dashboard'
       />
       <RouteWithLayout
         component={SignUp}
         exact
-        layout={LoginLayout}
+        layout={WithAuth(LoginLayout)}
         path='/sign-up'
       />
     </Switch>

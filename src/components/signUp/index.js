@@ -184,15 +184,7 @@ function SignUp() {
             >
               <Input type='text' placeholder='Enter Email' />
             </Form.Item>
-            <label htmlFor='image'>
-              <b>Upload Profile Image</b>
-            </label>
-            <Form.Item
-              name='image'
-              rules={[{ required: true, message: 'Please enter Avatar' }]}
-            >
-              <input type='file' onSelect={() => handlePhotoInput()} />
-            </Form.Item>
+
             <label htmlFor='name'>
               <b>Name</b>
             </label>

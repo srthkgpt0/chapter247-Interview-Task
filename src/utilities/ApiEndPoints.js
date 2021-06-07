@@ -7,7 +7,6 @@ const ApiEndPoints = {
   },
   signUp: {
     url: '/auth/signup',
-    'content-type': 'multipart/form-data',
     method: 'POST'
   },
   updateUser: {

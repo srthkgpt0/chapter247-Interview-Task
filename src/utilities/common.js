@@ -14,9 +14,9 @@ export const removeSessionStorageToken = () => {
 export const getFile = (url, queryParam) => {
   let reqUrl
   if (queryParam) {
-    reqUrl = `${url}?authorization=${'Bearer '}${getSessionStorageToken()}&${queryParam}`
+    reqUrl = `${url}?Authorization=${'Bearer '}${getSessionStorageToken()}&${queryParam}`
   } else {
-    reqUrl = `${url}?authorization=${'Bearer '}${getSessionStorageToken()}`
+    reqUrl = `${url}?Authorization=${'Bearer '}${getSessionStorageToken()}`
   }
   window.open(reqUrl)
 }
