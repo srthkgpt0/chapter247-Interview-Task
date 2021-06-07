@@ -7,6 +7,7 @@ const ApiEndPoints = {
   },
   signUp: {
     url: '/auth/signup',
+    'content-type': 'multipart/form-data',
     method: 'POST'
   },
   updateUser: {
@@ -16,6 +17,10 @@ const ApiEndPoints = {
   deleteUser: {
     url: '/auth/user',
     method: 'DELETE'
+  },
+  getUserList: {
+    url: '/auth/user',
+    method: 'GET'
   },
   USER_LIST_FILE_DOWNLOAD: {
     url: `${config.API_BASE_URL}/auth/user/download-list`

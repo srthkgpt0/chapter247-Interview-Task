@@ -1,13 +1,28 @@
 import { Button, Form, Input, message, Space, Table, Tag, Upload } from 'antd'
-import React, { useEffect } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import config from '../components/config'
 import APIrequest from '../services/ApiRequest'
 import '../styles/dashboard.css'
 import ApiEndPoints from '../utilities/ApiEndPoints'
 import { getFile } from '../utilities/common'
 function Dashboard() {
+  const [userList, setUserList] = useState([])
   const [form] = Form.useForm()
-
+  useEffect(() => {
+    getUserList()
+  }, [])
+  const getUserList = async () => {
+    try {
+      const payload = {
+        ...ApiEndPoints.getUserList
+      }
+      const res = await APIrequest(payload)
+      console.log(res)
+      setUserList(res.data)
+    } catch (error) {}
+  }
   const columns = [
     {
       title: 'Name',
@@ -20,14 +35,34 @@ function Dashboard() {
       key: 'age'
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address'
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email'
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
+      title: 'Gender',
+      dataIndex: 'gender',
+      key: 'gender'
+    },
+    {
+      title: 'Country',
+      dataIndex: 'country',
+      key: 'country'
+    },
+    {
+      title: 'State',
+      dataIndex: 'state',
+      key: 'state'
+    },
+    {
+      title: 'City',
+      dataIndex: 'city',
+      key: 'city'
+    },
+    {
+      title: 'Skills',
+      key: 'skills',
+      dataIndex: 'skills',
       render: (tags) => (
         <>
           {tags.map((tag) => {
@@ -43,16 +78,6 @@ function Dashboard() {
           })}
         </>
       )
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size='middle'>
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      )
     }
   ]
 
@@ -62,21 +87,21 @@ function Dashboard() {
       name: 'John Brown',
       age: 32,
       address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer']
+      skills: ['nice', 'developer']
     },
     {
       key: '2',
       name: 'Jim Green',
       age: 42,
       address: 'London No. 1 Lake Park',
-      tags: ['loser']
+      skills: ['loser']
     },
     {
       key: '3',
       name: 'Joe Black',
       age: 32,
       address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher']
+      skills: ['cool', 'teacher']
     }
   ]
   // const generateQueryString = (type, queryParams) => {
@@ -91,7 +116,7 @@ function Dashboard() {
   }
   const props = {
     name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    action: config.API_BASE_URL + '/auth/csv',
     headers: {
       authorization: 'authorization-text'
     },
@@ -118,7 +143,7 @@ function Dashboard() {
             <Button onClick={() => getCSV()}>Export List</Button>
           </div>
         </div>
-        <Table columns={columns} dataSource={data} />
+        <Table pagination={false} columns={columns} dataSource={data} />
       </main>
     </>
   )

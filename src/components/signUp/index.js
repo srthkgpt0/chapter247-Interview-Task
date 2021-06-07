@@ -18,6 +18,7 @@ import APIrequest from '../../services/ApiRequest'
 import ApiEndPoints from '../../utilities/ApiEndPoints'
 import '../../styles/signUp.css'
 import { setSessionStorageToken } from '../../utilities/common'
+// import UploadMedia from '../mediaUpload'
 function SignUp() {
   const [countryList, setCountryList] = useState([])
   const [stateList, setStateList] = useState([])
@@ -90,7 +91,8 @@ function SignUp() {
         dob: values.dob,
         gender: values.gender,
         prefix: values.prefix,
-        phone: values.phone
+        phone: values.phone,
+        photo: values.photo
       }
     }
     console.log(payload)
@@ -161,6 +163,9 @@ function SignUp() {
     return true
     // if(current.year()
   }
+  const handlePhotoInput = (values) => {
+    console.log(values)
+  }
   return (
     <>
       <div className='main-content'>
@@ -173,35 +178,46 @@ function SignUp() {
             <label htmlFor='email'>
               <b>Email</b>
             </label>
-            <Form.Item name='email'>
-              <Input type='text' placeholder='Enter Email' required />
+            <Form.Item
+              name='email'
+              rules={[{ required: true, message: 'Please enter email' }]}
+            >
+              <Input type='text' placeholder='Enter Email' />
             </Form.Item>
-
             <label htmlFor='image'>
               <b>Upload Profile Image</b>
             </label>
-            <Form.Item name='image'>
-              <Upload {...props}>
-                <Button>Click to Upload</Button>
-              </Upload>
+            <Form.Item
+              name='image'
+              rules={[{ required: true, message: 'Please enter Avatar' }]}
+            >
+              <input type='file' onSelect={() => handlePhotoInput()} />
             </Form.Item>
-
             <label htmlFor='name'>
               <b>Name</b>
             </label>
-            <Form.Item name='name'>
-              <Input type='text' placeholder='Enter Name' required />
+            <Form.Item
+              name='name'
+              rules={[{ required: true, message: 'Please enter name' }]}
+            >
+              <Input type='text' placeholder='Enter Name' />
             </Form.Item>
             <label htmlFor='age'>
               <b>Age</b>
             </label>
-            <Form.Item name='age'>
-              <Input type='number' placeholder='Enter Age' required />
+            <Form.Item
+              name='age'
+              rules={[{ required: true, message: 'Please enter age' }]}
+            >
+              <Input type='number' placeholder='Enter Age' />
             </Form.Item>
             <label htmlFor='gender'>
               <b>Gender</b>
             </label>
-            <Form.Item name='gender'>
+            <Form.Item
+              name='gender'
+              rules={[{ required: true, message: 'Please select a gender' }]}
+            >
               <Select>
                 <Select.Option value='male'>Male</Select.Option>
                 <Select.Option value='female'>Female</Select.Option>
@@ -269,16 +285,23 @@ function SignUp() {
             <label htmlFor='dob'>
               <b>Date of Birth</b>
             </label>
-            <Form.Item name='dob'>
+            <Form.Item
+              name='dob'
+              rules={[
+                { required: true, message: 'Please select date of birth' }
+              ]}
+            >
               <DatePicker format='DD/MM/YYYY' disabledDate={disabledDate} />
             </Form.Item>
             <label htmlFor='password'>
               <b>Password</b>
             </label>
-            <Form.Item name='password'>
-              <Input type='password' placeholder='Enter Password' required />
+            <Form.Item
+              name='password'
+              rules={[{ required: true, message: 'Please enter password   ' }]}
+            >
+              <Input type='password' placeholder='Enter Password' />
             </Form.Item>
-
             <p>
               By creating an account you agree to our
               <a href='/' style={{ color: 'dodgerblue' }}>
@@ -286,7 +309,6 @@ function SignUp() {
               </a>
               .
             </p>
-
             <div className='clearfix'>
               <Link to='/' type='button' className='button cancelbtn'>
                 Cancel
